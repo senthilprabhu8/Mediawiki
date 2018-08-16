@@ -1,0 +1,22 @@
+---
+- name: Installation of Jenkins
+  hosts: 104.211.226.175
+  become: yes
+  tasks:
+  - name: Downloading Jenkins pkgs
+    get_url:
+       url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+       dest: /etc/yum.repos.d/jenkins.repo
+  - name: Importing the key
+    command: rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  - name: Install Java & Jenkins
+    yum:
+     name: "{{ item }}"
+     state: present
+    with_items:
+       - java
+       - jenkins
+  - name: Jenkins start
+    service:
+      name: jenkins
+      state: started
