@@ -2,6 +2,7 @@
 - name: Installation of git
   become: yes
   tasks:
-  yum:
-   name: git
-   state: present
+  - name: git package install
+    yum:
+     name: git
+     state: present
