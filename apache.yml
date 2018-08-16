@@ -1,0 +1,13 @@
+---
+- name: apache installation
+  hosts: as
+  become: yes
+  tasks:
+  - name: installation
+    yum:
+     name: httpd 
+     state: present
+  - name: service start
+    service:
+     name: httpd
+     state: started

@@ -1,0 +1,12 @@
+---
+- name: Installation of mediawiki
+  hosts: as
+  tasks:
+  - name: download mediawiki
+    get_url:
+       url: http://releases.wikimedia.org/mediawiki/1.31/mediawiki-1.31.0.tar.gz
+       dest: /var/www/
+  - name: untar
+    command: tar xzvf /var/www/mediawiki-1.31.0.tar.gz -C /var/www/
+  - name: move the unarchived file to install dir
+    command: creates=/var/www/html/mediawiki mv /var/www/mediawiki-1.31.0 /var/www/html/mediawiki

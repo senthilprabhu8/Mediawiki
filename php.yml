@@ -1,0 +1,25 @@
+---
+- name: php installation
+  hosts: as
+  become: yes
+  tasks:
+  - name: update yum packages
+    yum:
+     name: "*"
+     state: latest
+  - name: Install PHP packages
+    yum:
+      name: "{{ packages }}"
+      state: latest
+      enablerepo: remi-php72
+    vars:
+      packages:
+       - php
+       - php-mysql
+       - php-gd
+       - php-xml
+       - mariadb-server
+       - mariadb
+       - php-mbstring
+
+      

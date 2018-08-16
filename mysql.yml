@@ -1,0 +1,53 @@
+---
+- name: Installation of mysql
+  hosts: db
+  become: yes
+  tasks:
+  - name: Install mysql
+    yum:
+     name: "{{ packages }}"
+     state: present
+    vars:
+     packages:
+      - mysql
+      - mysql-server
+  - name: start mysql
+    service:
+     name: mysqld
+     state: started
+     enabled: yes
+  - name: Install mysqldb-python lib
+    yum:
+     name: "{{ libs }}"
+     state: present
+    vars:
+     libs:
+      - gcc-c++
+      - MySQL-python
+  - name: Remove mysql test db
+    mysql_db:
+     name: test 
+     state: absent
+     config_file: /home/dbserver/.my.cnf
+     login_user: root
+     login_password: DBserver1234!
+  - name: Create db
+    mysql_db:
+     name: wiki
+     state: present
+     config_file: /home/dbserver/.my.cnf
+     login_user: root
+     login_password: DBserver1234!
+  - name: Create db user
+    mysql_user:
+     name: wiki
+     password: Wiki1234!
+     priv: '*.*:ALL'
+     state: present
+     config_file: /home/dbserver/.my.cnf
+     login_user: root
+     login_password: DBserver1234!
+  - name: restart mysql
+    service:
+     name: mysqld
+     state: restarted
