@@ -1,0 +1,7 @@
+---
+- name: Installation of git
+  become: yes
+  tasks:
+  yum:
+   name: git
+   state: present
